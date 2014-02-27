@@ -1,21 +1,116 @@
-## Laravel PHP Framework
+# Beehive - Project CS 8803
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework) [![License](https://poser.pugx.org/laravel/framework/license.png)](https://packagist.org/packages/laravel/framework) 
+## Introduction
+Backend for Beehive
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+## Run project on Ubuntu 12.04 LTS
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+Here is the guide for running beehive on Ubuntu 12.04 LTS. Steps may change on different OS (Windows, Mac, etc)
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+You can also see the Laravel Installation guide here: [http://laravel.com/docs/installation](http://laravel.com/docs/installation)
 
-## Official Documentation
+Install Composer using curl:
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+	$ curl -sS https://getcomposer.org/installer | php
+	
+Download Laravel:
 
-### Contributing To Laravel
+	$ wget http://laravel.com/laravel.phar
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+Clone the beehive project:
 
-### License
+	$ git clone git@github.com:zhenyi2697/beehive.git
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Now the project has been cloned. To start the project, go to /beehive and run:
+
+	$ php artisan serve
+	
+Normally, there will be some errors because you need to install some more staffs:
+
+Update php to php5.4+:
+
+	$ sudo apt-get install python-software-properties
+	$ sudo add-apt-repository ppa:ondrej/php5
+	$ sudo apt-get update
+	$ sudo apt-get upgrade
+	$ sudo apt-get install php5
+
+Install php5-curl:
+	
+	$ sudo apt-get install php5-curl
+
+Install php5-mcrypt:
+	
+	$ sudo apt-get install php5-mcrypt
+
+Normally, we can start the laravel embed webserver now.
+
+## Deploy the projet on Apache
+
+To deploy laravel in Apache server, create a virtualhost file like any other site.
+Here is a sample configuration file:
+
+	<VirtualHost *:80>
+		ServerName beehive.zhangzhenyi.com
+		ServerAlias beehive.zhangzhenyi.com
+		ServerAdmin zhenyi2697@gmail.com
+		
+		DocumentRoot /home/zhenyi/blog/public/
+		<Directory />
+			Options +FollowSymLinks
+			AllowOverride All
+		</Directory>
+		<Directory /home/zhenyi/blog/public/>
+			Options +Indexes +FollowSymLinks +MultiViews
+			AllowOverride All
+			Require all granted
+		</Directory>
+	</VirtualHost>
+	
+If Apache version < 2.4, config file is:
+
+	<VirtualHost *:80>
+		ServerName beehive.zhangzhenyi.com
+		ServerAlias beehive.zhangzhenyi.com
+		ServerAdmin zhenyi2697@gmail.com
+		
+		DocumentRoot /home/zhenyi/blog/public/
+		<Directory />
+			Options FollowSymLinks
+			AllowOverride All
+		</Directory>
+		<Directory /home/zhenyi/blog/public/>
+			Options Indexes FollowSymLinks MultiViews
+			AllowOverride All
+			Order allow,deny
+			Allow from all
+		</Directory>
+	</VirtualHost>
+	
+Enable modwrite:
+	
+	$ sudo a2enmod rewrite
+
+Reload and restart apache:
+
+	$ sudo service apache2 reload
+	$ sudo service apache2 restart
+	
+If have some errors restarting apache, just follow the error messages.
+You may want to do the followings:
+
+	## Replace in /etc/apache2/apache2.conf
+	LockFile /var/lock/apache2/accept.lock
+	
+	## with
+	Mutex file:${APACHE_LOCK_DIR} default
+	
+At last, we should change the permission of the storage folder:
+
+	# World-writable (Group, User, Other Writable)
+	$ sudo chmod -R guo+w app/storage
+
+
+@author FrenchFries
+
+

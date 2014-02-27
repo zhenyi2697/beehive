@@ -54,11 +54,11 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '37.139.13.215',
+			'host'      => 'localhost',
 			'port' 		=> '3306',
 			'database'  => 'beehive',
-			'username'  => 'louis.f',
-			'password'  => 'dHNBQ3MKjSqbjQeJ',
+			'username'  => 'USERNAME',
+			'password'  => 'PASSWORD',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

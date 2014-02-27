@@ -45,6 +45,29 @@ Install php5-mcrypt:
 
 Normally, we can start the laravel embed webserver now.
 
+## Configure database
+
+This database config is in the file: app/config/database.php
+
+Under mysql section, add your database address (normally it's localhost), user name and password. The result is something like this:
+
+	'mysql' => array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'port' 		=> '3306',
+			'database'  => 'beehive',
+			'username'  => 'USERNAME',
+			'password'  => 'PASSWORD',
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => '',
+		),
+
+Then, you can do the migration and insert fake data into the database
+
+	$ php artisan migrate  ## Create tables
+	$ php artisan db:seed  ## Insert fake data
+
 ## Deploy the projet on Apache
 
 To deploy laravel in Apache server, create a virtualhost file like any other site.
